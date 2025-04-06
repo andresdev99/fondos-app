@@ -1,0 +1,41 @@
+.transaction-history {
+    margin-top: 20px;
+}
+
+.transactions {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 columns for a responsive grid */
+    gap: 20px;
+}
+
+.transaction-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.transaction-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.transaction-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: bold;
+    color: #555;
+}
+
+.error {
+    color: red;
+    margin-bottom: 10px;
+}

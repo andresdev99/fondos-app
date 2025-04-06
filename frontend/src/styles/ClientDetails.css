@@ -1,0 +1,34 @@
+.client-details-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.client-details-card h2 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 1.3rem;
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 8px;
+}
+
+.client-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.client-row:last-child {
+    border-bottom: none;
+}
+
+.client-label {
+    font-weight: bold;
+    color: #555;
+    margin-right: 10px;
+}

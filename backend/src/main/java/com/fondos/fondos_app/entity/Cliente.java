@@ -1,24 +1,24 @@
 package com.fondos.fondos_app.entity;
 
 public class Cliente {
-    private String clienteId;         // Mapea a "ClienteId"
-    private String cedula;           // Mapea a "Cedula"
-    private boolean fondo1;          // Mapea a "Fondo1"
-    private boolean fondo2;          // Mapea a "Fondo2"
-    private boolean fondo3;          // Mapea a "Fondo3"
-    private boolean fondo4;          // Mapea a "Fondo4"
-    private boolean fondo5;          // Mapea a "Fondo5"
-    private int monto;               // Mapea a "Monto"
-    private String nombre;           // Mapea a "Nombre"
-    private String tipoNotificacion; // Mapea a "TipoNotificacion"
+    private String clienteId;
+    private String cedula;
+    private boolean fondo1;
+    private boolean fondo2;
+    private boolean fondo3;
+    private boolean fondo4;
+    private boolean fondo5;
+    private int monto;
+    private String nombre;
+    private String tipoNotificacion;
+    private String email;
 
     public Cliente() {
     }
 
-    // Constructor con parámetros principales
     public Cliente(String clienteId, String cedula, boolean fondo1, boolean fondo2,
                    boolean fondo3, boolean fondo4, boolean fondo5,
-                   int monto, String nombre, String tipoNotificacion) {
+                   int monto, String nombre, String tipoNotificacion, String email) {
         this.clienteId = clienteId;
         this.cedula = cedula;
         this.fondo1 = fondo1;
@@ -29,6 +29,7 @@ public class Cliente {
         this.monto = monto;
         this.nombre = nombre;
         this.tipoNotificacion = tipoNotificacion;
+        this.email = email;
     }
 
     // Getters y setters
@@ -40,6 +41,12 @@ public class Cliente {
         this.clienteId = clienteId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public String getCedula() {
         return cedula;
     }

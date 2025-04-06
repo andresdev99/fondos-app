@@ -3,6 +3,7 @@ package com.fondos.fondos_app.controller;
 import com.fondos.fondos_app.entity.Transaccion;
 import com.fondos.fondos_app.dto.SuscripcionRequest;
 import com.fondos.fondos_app.service.ClienteService;
+import com.fondos.fondos_app.service.FondoService;
 import com.fondos.fondos_app.service.NotificationService;
 import com.fondos.fondos_app.service.TransaccionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/transaction")
 public class TransaccionController {
@@ -28,12 +30,16 @@ public class TransaccionController {
     @Autowired
     private ClienteService clienteService;
 
+    @Autowired
+    private FondoService fondoService;
+
     @PostMapping("/subscribe")
     public ResponseEntity<?> subscribe(@RequestBody SuscripcionRequest request) {
         try {
-            String tipoNotificacion = clienteService.getNotificationType(CLIENT_ID);
+            String notificationType = clienteService.getNotificationType(CLIENT_ID);
+            String fundName = fondoService.getFundName(request.getFondoId());
             transaccionService.registerTransaction(CLIENT_ID, APERTURA_TYPE, request.getFondoId());
-            notificationService.sendNotification(tipoNotificacion, "Te has suscrito al fondo: " + request.getFondoId());
+            notificationService.sendNotification(notificationType, request.getEmail(), "Te has suscrito al fondo: " + fundName);
             return ResponseEntity.ok("Suscripción realizada exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error al realizar la suscripción: " + e.getMessage());
@@ -43,9 +49,10 @@ public class TransaccionController {
     @PostMapping("/cancel")
     public ResponseEntity<String> cancelSubscription(@RequestBody SuscripcionRequest request) {
         try {
-            String tipoNotificacion = clienteService.getNotificationType(CLIENT_ID);
+            String notificationType = clienteService.getNotificationType(CLIENT_ID);
+            String fundName = fondoService.getFundName(request.getFondoId());
             transaccionService.registerTransaction(CLIENT_ID, CANCELACION_TYPE, request.getFondoId());
-            notificationService.sendNotification(tipoNotificacion, "Has cancelado tu suscripción al fondo: " + request.getFondoId());
+            notificationService.sendNotification(notificationType, request.getEmail(), "Has cancelado tu suscripción al fondo: " + fundName);
             return ResponseEntity.ok("Cancelación realizada exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error al cancelar la suscripción: " + e.getMessage());

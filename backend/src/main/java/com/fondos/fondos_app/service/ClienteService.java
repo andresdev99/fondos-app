@@ -28,8 +28,8 @@ public class ClienteService {
         return cliente.getMonto();
     }
 
-    public void updateNotificationType(String clientId, String newNotificationType) {
-        clienteRepository.updateTipoNotificacion(clientId, newNotificationType);
+    public void updateNotificationType(String clientId, String newNotificationType, String email) {
+        clienteRepository.updateTipoNotificacion(clientId, newNotificationType, email);
     }
 
 

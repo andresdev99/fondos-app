@@ -1,12 +1,14 @@
 package com.fondos.fondos_app.dto;
 
 public class SuscripcionRequest {
-    private String FondoId;
+    private String fondoId;
+    private String email;
 
     public String getFondoId() {
-        return FondoId;
+        return fondoId;
     }
-    public void setFondoId(String FondoId) {
-        this.FondoId = FondoId;
+
+    public String getEmail() {
+        return email;
     }
 }

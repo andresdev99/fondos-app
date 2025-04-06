@@ -40,6 +40,7 @@ public class ClienteRepository {
         // Mapeo de columnas a la entidad
         Cliente cliente = new Cliente();
         cliente.setClienteId(item.get("ClienteId").s());
+        cliente.setEmail(item.get("Email").s());
         cliente.setCedula(item.containsKey("Cedula") ? item.get("Cedula").s() : null);
         cliente.setFondo1(item.containsKey("Fondo1") ? item.get("Fondo1").bool() : false);
         cliente.setFondo2(item.containsKey("Fondo2") ? item.get("Fondo2").bool() : false);
@@ -92,19 +93,18 @@ public class ClienteRepository {
         dynamoDbClient.updateItem(updateRequest);
     }
 
-    public void updateTipoNotificacion(String clienteId, String newTipoNotificacion) {
+    public void updateTipoNotificacion(String clienteId, String newTipoNotificacion, String email) {
         Map<String, AttributeValue> key = new HashMap<>();
-        // La clave es "ClienteId" (asegúrate de usar el nombre exacto según tu tabla)
         key.put("ClienteId", AttributeValue.builder().s(clienteId).build());
 
         Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
         expressionAttributeValues.put(":newTipo", AttributeValue.builder().s(newTipoNotificacion).build());
+        expressionAttributeValues.put(":newEmail", AttributeValue.builder().s(email).build());
 
-        // Actualizamos el atributo TipoNotificacion
         UpdateItemRequest updateRequest = UpdateItemRequest.builder()
                 .tableName(TABLE_NAME)
                 .key(key)
-                .updateExpression("SET TipoNotificacion = :newTipo")
+                .updateExpression("SET TipoNotificacion = :newTipo, Email = :newEmail")
                 .expressionAttributeValues(expressionAttributeValues)
                 .build();
 

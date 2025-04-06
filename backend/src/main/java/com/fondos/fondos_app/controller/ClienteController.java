@@ -1,7 +1,6 @@
 package com.fondos.fondos_app.controller;
 
 import com.fondos.fondos_app.entity.Cliente;
-import com.fondos.fondos_app.repository.ClienteRepository;
 import com.fondos.fondos_app.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/client")
 public class ClienteController {
@@ -76,9 +76,14 @@ public class ClienteController {
         if (!body.containsKey("tipoNotificacion")) {
             return ResponseEntity.badRequest().body("Falta el parámetro 'tipoNotificacion' en el cuerpo de la solicitud.");
         }
+        if (!body.containsKey("email")) {
+            return ResponseEntity.badRequest().body("Falta el parámetro 'email' en el cuerpo de la solicitud.");
+        }
+
         String newNotificationType = body.get("tipoNotificacion");
+        String email = body.get("email");
         try {
-            clienteService.updateNotificationType(clientId, newNotificationType);
+            clienteService.updateNotificationType(clientId, newNotificationType, email);
             return ResponseEntity.ok("TipoNotificacion actualizado exitosamente.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error al actualizar el tipo de notificación: " + e.getMessage());
