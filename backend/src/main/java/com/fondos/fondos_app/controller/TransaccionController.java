@@ -28,7 +28,7 @@ import java.util.List;
  * <p>
  * Cross-origin requests are allowed from <code>http://localhost:5173</code>.
  */
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/transaction")
 public class TransaccionController {

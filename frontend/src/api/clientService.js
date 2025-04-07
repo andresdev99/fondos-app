@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const clientApi = axios.create({
-    baseURL: 'http://localhost:8080/api/client',
+    baseURL: 'http://18.204.194.16:8080/api/client',
 });
 
 export const getClient = (clientId) => clientApi.get(`/${clientId}`);

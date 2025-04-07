@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const fundApi = axios.create({
-    baseURL: 'http://localhost:8080/api/fund',
+    baseURL: 'http://18.204.194.16:8080/api/fund',
 });
 
 export const getFund = (fundId) => fundApi.get(`/${fundId}`);

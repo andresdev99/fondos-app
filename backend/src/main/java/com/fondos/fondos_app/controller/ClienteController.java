@@ -21,7 +21,7 @@ import java.util.Map;
  * <p>
  * The endpoints use simple error handling and return appropriate HTTP status codes.
  */
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/client")
 public class ClienteController {

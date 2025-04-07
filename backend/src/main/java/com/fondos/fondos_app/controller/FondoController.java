@@ -17,9 +17,8 @@ import java.util.List;
  *     <li>Retrieving a single fund by its unique identifier.</li>
  * </ul>
  * <p>
- * Cross-origin requests are allowed from <code>http://localhost:5173</code>.
  */
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/fund")
 public class FondoController {

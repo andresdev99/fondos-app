@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const transactionApi = axios.create({
-    baseURL: 'http://localhost:8080/api/transaction',
+    baseURL: 'http://18.204.194.16:8080/api/transaction',
 });
 
 // Get transactions: GET /api/transaction/transactions
