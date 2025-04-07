@@ -9,7 +9,6 @@ const UpdateFundForm = ({ client, fund, isActive, notificationType, onUpdate }) 
     const handleToggle = () => {
         const action = isActive ? "desinscribirse" : "inscribirse";
 
-        // Validación: Si se intenta inscribirse y el saldo del cliente es menor al monto mínimo, se muestra un mensaje
         if (!isActive && client.monto < fund.montoMinimo) {
             window.alert(`No tiene saldo disponible para vincularse al fondo ${fund.nombre}`);
             return;
@@ -17,7 +16,6 @@ const UpdateFundForm = ({ client, fund, isActive, notificationType, onUpdate }) 
 
         const confirmationMessage = `¿Desea ${action}? Le notificaremos también vía ${notificationType}.`;
         if (window.confirm(confirmationMessage)) {
-            // Encadena la acción (subscribe o cancel) y luego actualiza el estado
             const actionPromise = isActive
                 ? cancelFund(fund.fondoId, client.email)
                 : subscribeFund(fund.fondoId, client.email);
