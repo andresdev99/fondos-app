@@ -5,7 +5,6 @@ const ClientDetails = ({ client }) => {
     if (!client) {
         return <p>Loading client data...</p>;
     }
-    console.log(client)
     return (
         <div className="client-details-card">
             <h2>Detalles de Cliente</h2>
@@ -19,7 +18,7 @@ const ClientDetails = ({ client }) => {
             </div>
             <div className="client-row">
                 <span className="client-label">Balance (Monto):</span>
-                <span>{client.monto}</span>
+                <strong>{client.monto}</strong>
             </div>
             <div className="client-row">
                 <span className="client-label">Notification Type:</span>

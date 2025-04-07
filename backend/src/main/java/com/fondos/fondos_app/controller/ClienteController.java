@@ -18,8 +18,9 @@ public class ClienteController {
 
     // Endpoint para obtener la información completa del cliente
     @GetMapping("/{clientId}")
-    public ResponseEntity<Cliente> getClient(@PathVariable String clientId) {
+    public ResponseEntity<?> getClient(@PathVariable String clientId) {
         try{
+            System.out.println(clientId);
             Cliente cliente = clienteService.getClient(clientId);
 
             if (cliente == null) {
@@ -28,13 +29,13 @@ public class ClienteController {
             return ResponseEntity.ok(cliente);
 
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
+            return ResponseEntity.status(500).body(e.getStackTrace());
         }
     }
 
 
     @PutMapping("/{clientId}/amount")
-    public ResponseEntity<String> updateAmount(@PathVariable String clientId,
+    public ResponseEntity<?> updateAmount(@PathVariable String clientId,
                                                   @RequestBody Map<String, Integer> body) {
         if (!body.containsKey("monto")) {
             return ResponseEntity.badRequest().body("El cuerpo debe contener la clave 'monto'");
@@ -51,7 +52,7 @@ public class ClienteController {
     // Endpoint para actualizar el valor booleano de un fondo específico
     // Se espera un JSON con: { "value": true }
     @PutMapping("/{clientId}/fund/{keyFund}")
-    public ResponseEntity<String> updateFund(@PathVariable String clientId,
+    public ResponseEntity<?> updateFund(@PathVariable String clientId,
                                                   @PathVariable String keyFund,
                                                   @RequestBody Map<String, Boolean> body) {
         if (!body.containsKey("value")) {
@@ -71,7 +72,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{clientId}/notificationType")
-    public ResponseEntity<String> actualizarTipoNotificacion(@PathVariable String clientId,
+    public ResponseEntity<?> actualizarTipoNotificacion(@PathVariable String clientId,
                                                              @RequestBody Map<String, String> body) {
         if (!body.containsKey("tipoNotificacion")) {
             return ResponseEntity.badRequest().body("Falta el parámetro 'tipoNotificacion' en el cuerpo de la solicitud.");

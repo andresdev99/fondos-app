@@ -14,14 +14,20 @@ const Sidebar = ({ client, currentNotification, onUpdate }) => {
         }
     }, [client]);
 
+    const onChangEmailInput = (e) => {
+        const value = e.target.value;
+        setEmail(value);
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (notificationType.toLowerCase() === 'email') {
-            updateNotificationType(client.clientId, notificationType, email)
+            updateNotificationType(client.clienteId, notificationType, email)
                 .then(() => onUpdate())
                 .catch((err) => console.error("Error updating notification type:", err));
         } else {
-            updateNotificationType(client.clientId, notificationType)
+            updateNotificationType(client.clienteId, notificationType, email)
                 .then(() => onUpdate())
                 .catch((err) => console.error("Error updating notification type:", err));
         }
@@ -52,7 +58,7 @@ const Sidebar = ({ client, currentNotification, onUpdate }) => {
                             type="email"
                             id="emailInput"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={onChangEmailInput}
                         />
                     </>
                 ) :

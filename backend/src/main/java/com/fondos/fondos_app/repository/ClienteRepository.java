@@ -21,7 +21,6 @@ public class ClienteRepository {
     private DynamoDbClient dynamoDbClient;
 
     public Cliente findByClienteId(String clienteId) {
-        // Clave de partición: "ClienteId"
         Map<String, AttributeValue> key = new HashMap<>();
         key.put("ClienteId", AttributeValue.builder().s(clienteId).build());
 
@@ -40,7 +39,7 @@ public class ClienteRepository {
         // Mapeo de columnas a la entidad
         Cliente cliente = new Cliente();
         cliente.setClienteId(item.get("ClienteId").s());
-        cliente.setEmail(item.get("Email").s());
+        cliente.setEmail(item.containsKey("Email") ? item.get("Email").s() : "");
         cliente.setCedula(item.containsKey("Cedula") ? item.get("Cedula").s() : null);
         cliente.setFondo1(item.containsKey("Fondo1") ? item.get("Fondo1").bool() : false);
         cliente.setFondo2(item.containsKey("Fondo2") ? item.get("Fondo2").bool() : false);
@@ -121,6 +120,7 @@ public class ClienteRepository {
         item.put("Fondo3", AttributeValue.builder().bool(cliente.isFondo3()).build());
         item.put("Fondo4", AttributeValue.builder().bool(cliente.isFondo4()).build());
         item.put("Fondo5", AttributeValue.builder().bool(cliente.isFondo5()).build());
+        item.put("Email", AttributeValue.builder().s(cliente.getEmail()).build());
         item.put("Monto", AttributeValue.builder().n(String.valueOf(cliente.getMonto())).build());
         item.put("Nombre", AttributeValue.builder().s(cliente.getNombre()).build());
         item.put("TipoNotificacion", AttributeValue.builder().s(cliente.getTipoNotificacion()).build());
