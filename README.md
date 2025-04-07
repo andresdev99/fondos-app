@@ -1,6 +1,13 @@
 
 # 📌 Datos de la Aplicación
 Aplicacion de Fondos [Link](http://ec2-44-202-242-85.compute-1.amazonaws.com:5174/)
+
+## Escritorio
+![image](https://github.com/user-attachments/assets/fe150c40-9b12-4dd5-90ee-70159828c42a)
+## Mobil
+![image](https://github.com/user-attachments/assets/a4208d9c-55be-46ad-8dc7-1230ab54df34)
+
+
 ## Fondos Disponibles:
 
 | Id | Nombre del Fondo            | Monto mínimo | Categoría |
