@@ -12,6 +12,17 @@ import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Repository for accessing and manipulating client data in the DynamoDB table "Clientes".
+ *
+ * <p>This repository provides methods to retrieve, update, and save {@link Cliente} objects in DynamoDB.
+ * It handles operations such as fetching a client by ID, updating client attributes (like "Monto", fund flags,
+ * and notification type), and persisting a new client record.</p>
+ *
+ * <p>It uses the AWS SDK for Java v2 {@link DynamoDbClient} to communicate with DynamoDB.</p>
+ *
+ * @see com.fondos.fondos_app.entity.Cliente
+ */
 @Repository
 public class ClienteRepository {
 
@@ -20,6 +31,12 @@ public class ClienteRepository {
     @Autowired
     private DynamoDbClient dynamoDbClient;
 
+    /**
+     * Retrieves a client from the DynamoDB table based on the provided client ID.
+     *
+     * @param clienteId the unique identifier of the client.
+     * @return the {@link Cliente} object if found; otherwise, {@code null}.
+     */
     public Cliente findByClienteId(String clienteId) {
         Map<String, AttributeValue> key = new HashMap<>();
         key.put("ClienteId", AttributeValue.builder().s(clienteId).build());
@@ -36,7 +53,7 @@ public class ClienteRepository {
             return null;
         }
 
-        // Mapeo de columnas a la entidad
+        // Map columns from the DynamoDB item to the Cliente entity
         Cliente cliente = new Cliente();
         cliente.setClienteId(item.get("ClienteId").s());
         cliente.setEmail(item.containsKey("Email") ? item.get("Email").s() : "");
@@ -53,6 +70,12 @@ public class ClienteRepository {
         return cliente;
     }
 
+    /**
+     * Updates the "Monto" (amount) attribute of a client.
+     *
+     * @param clienteId the unique identifier of the client.
+     * @param newMonto  the new amount to be set.
+     */
     public void updateMonto(String clienteId, int newMonto) {
         Map<String, AttributeValue> key = new HashMap<>();
         key.put("ClienteId", AttributeValue.builder().s(clienteId).build());
@@ -60,7 +83,7 @@ public class ClienteRepository {
         Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
         expressionAttributeValues.put(":newMonto", AttributeValue.builder().n(String.valueOf(newMonto)).build());
 
-        // Actualizamos la columna "Monto"
+        // Update the "Monto" column in the DynamoDB table
         UpdateItemRequest updateRequest = UpdateItemRequest.builder()
                 .tableName(TABLE_NAME)
                 .key(key)
@@ -71,15 +94,21 @@ public class ClienteRepository {
         dynamoDbClient.updateItem(updateRequest);
     }
 
+    /**
+     * Updates one of the client's fund attributes (e.g., Fondo1, Fondo2, etc.) in the DynamoDB table.
+     *
+     * @param clienteId the unique identifier of the client.
+     * @param fondoKey  the key of the fund attribute to update (e.g., "Fondo1").
+     * @param newValue  the new boolean value to be set for the specified fund attribute.
+     */
     public void updateFondo(String clienteId, String fondoKey, boolean newValue) {
-        // Ejemplo de fondoKey: "Fondo1", "Fondo2", ...
         Map<String, AttributeValue> key = new HashMap<>();
         key.put("ClienteId", AttributeValue.builder().s(clienteId).build());
 
         Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
         expressionAttributeValues.put(":newVal", AttributeValue.builder().bool(newValue).build());
 
-        // Actualizamos directamente la columna "Fondo1", "Fondo2", etc.
+        // Build the update expression dynamically based on the provided fund key
         String updateExpression = "SET " + fondoKey + " = :newVal";
 
         UpdateItemRequest updateRequest = UpdateItemRequest.builder()
@@ -92,6 +121,13 @@ public class ClienteRepository {
         dynamoDbClient.updateItem(updateRequest);
     }
 
+    /**
+     * Updates the client's notification type and email in the DynamoDB table.
+     *
+     * @param clienteId         the unique identifier of the client.
+     * @param newTipoNotificacion the new notification type.
+     * @param email             the new email address to associate with the notification.
+     */
     public void updateTipoNotificacion(String clienteId, String newTipoNotificacion, String email) {
         Map<String, AttributeValue> key = new HashMap<>();
         key.put("ClienteId", AttributeValue.builder().s(clienteId).build());
@@ -110,7 +146,11 @@ public class ClienteRepository {
         dynamoDbClient.updateItem(updateRequest);
     }
 
-
+    /**
+     * Saves a new client record to the DynamoDB table.
+     *
+     * @param cliente the {@link Cliente} object to be saved.
+     */
     public void save(Cliente cliente) {
         Map<String, AttributeValue> item = new HashMap<>();
         item.put("ClienteId", AttributeValue.builder().s(cliente.getClienteId()).build());

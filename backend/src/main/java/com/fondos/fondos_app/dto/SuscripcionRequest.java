@@ -7,6 +7,12 @@ public class SuscripcionRequest {
     public String getFondoId() {
         return fondoId;
     }
+    public void setFondoId(String fondoId) {
+        this.fondoId = fondoId;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getEmail() {
         return email;

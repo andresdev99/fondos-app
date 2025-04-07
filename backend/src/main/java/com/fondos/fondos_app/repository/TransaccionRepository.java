@@ -14,14 +14,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Repository for accessing and managing transaction data in the DynamoDB table "Transacciones".
+ *
+ * <p>This repository provides methods to save a {@link Transaccion} to the database and to retrieve a list
+ * of transactions associated with a given client ID.</p>
+ *
+ * <p>It uses the AWS SDK for Java v2 {@link DynamoDbClient} to communicate with DynamoDB.</p>
+ *
+ * @see com.fondos.fondos_app.entity.Transaccion
+ */
 @Repository
 public class TransaccionRepository {
 
     @Autowired
     private DynamoDbClient dynamoDbClient;
 
+    /**
+     * Saves a {@link Transaccion} object to the "Transacciones" DynamoDB table.
+     *
+     * <p>This method constructs a map of attributes from the provided {@code transaccion} object,
+     * creates a {@link PutItemRequest}, and then executes the request using the {@link DynamoDbClient}.</p>
+     *
+     * @param transaccion the transaction to be saved.
+     */
     public void save(Transaccion transaccion) {
-        // Build the item map using the new AttributeValue builder
+        // Build the item map using the AttributeValue builder.
         Map<String, AttributeValue> item = new HashMap<>();
         item.put("ClienteId", AttributeValue.builder().s(transaccion.getClienteId()).build());
         item.put("TransaccionId", AttributeValue.builder().s(transaccion.getTransaccionId()).build());
@@ -36,8 +54,17 @@ public class TransaccionRepository {
 
         dynamoDbClient.putItem(request);
     }
-    public List<Transaccion> findByClienteId(String clienteId) {
 
+    /**
+     * Retrieves a list of {@link Transaccion} objects associated with the given client ID from the "Transacciones" table.
+     *
+     * <p>This method builds a query request using a key condition expression to filter by the client ID,
+     * executes the query using the {@link DynamoDbClient}, and then maps the resulting items to a list of {@link Transaccion} objects.</p>
+     *
+     * @param clienteId the unique identifier of the client.
+     * @return a list of {@link Transaccion} objects for the specified client. If no transactions are found, returns an empty list.
+     */
+    public List<Transaccion> findByClienteId(String clienteId) {
         Map<String, AttributeValue> expressionValues = new HashMap<>();
         expressionValues.put(":cid", AttributeValue.builder().s(clienteId).build());
 
